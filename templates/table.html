@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block  title%} Home {% endblock  %}
+{% block body %}
+    <div class="container mp-3">
+      <h2>Add your Expense</h2>
+        <form action="/" method="POST">
+            <div class="mb-3">
+              <label for="expense" class="form-label">Expense Name</label>
+              <input type="text" class="form-control" name="expense" id="expense" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="cost" class="form-label">Cost</label>
+              <input type="text" class="form-control" name="cost" id="cost">
+            </div>
+            <button type="submit" href="/" class="btn btn-primary">Create</button>
+          </form> 
+    </div>
+    <div class="container my-3">
+      <h2>Your Report</h2>
+          {% if allshow|length == 0 %}
+          <div class="alert alert-info" role="alert">
+            Please add a record here !
+          </div>
+          {% else %}
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Sl. No.</th>
+                <th scope="col">Expense</th>
+                <th scope="col">Cost</th>
+                <th scope="col">Time</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for mm in allshow %}
+            <tr>
+              <th scope="row">{{loop.index}}</th>
+              <td>{{mm.expense}}</td>
+              <td>{{mm.cost}}</td>
+              <td>{{mm.date_created}}</td>
+              <td>
+                <a href="/update/{{mm.sno}}" type="button" class="btn btn-outline-primary btn-sm mx-2">Update</button>
+                <a href="/delete/{{mm.sno}}" type="button" class="btn btn-outline-danger btn-sm mx-2">Delete</button>
+              </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+          {% endif %}
+    </div>
+    {% endblock body %}

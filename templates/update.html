@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block  title %} Update {% endblock title %}
+{% block body %}
+    <div class="container mp-3">
+      <h2>Update your Expense</h2>
+        <form action="/update/{{update.sno}}" method="POST">
+            <div class="mb-3">
+              <label for="expense" class="form-label">Expense Name</label>
+              <input type="text" class="form-control" name="expense" id="expense" value="{{update.expense}}" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="cost" class="form-label">Cost</label>
+              <input type="text" class="form-control" value="{{update.cost}}" name="cost" id="cost">
+            </div>
+            <button type="submit" href="/" class="btn btn-primary">Update</button>
+          </form> 
+    </div>
+    {% endblock body %}
