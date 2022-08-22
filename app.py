@@ -1,17 +1,11 @@
 # from crypt import methods
 from pydoc import render_doc
-from aws_xray_sdk.core import xray_recorder
-from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
-
 app = Flask(__name__)
-# Configure the X-Ray recorder to generate segments with our service name
-xray_recorder.configure(service='secondary')
-XRayMiddleware(app, xray_recorder)
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///wilshan.db"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://admin:Password.725@microservices.cygtz1jhzno6.us-east-1.rds.amazonaws.com:3306/db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 class Mm(db.Model):
@@ -29,7 +23,8 @@ def table():
   #      print(request.form["expense"])
         name = request.form['expense']
         value  = request.form['cost']
-        mm = Mm(expense=name, cost=value)
+        sno = request.form['sno']
+        mm = Mm(sno=sno, expense=name, cost=value)
         db.session.add(mm)
         db.session.commit()
     allShow = Mm.query.all()
@@ -57,11 +52,10 @@ def delete(sno):
     db.session.commit()
     return redirect("/")
 
-@app.route('/login')
-def login():
-    return render_template('login.html')
+# @app.route('/')
+# def login():
+#     return render_template('table.html')
 
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
-
